@@ -28,7 +28,17 @@
             </div>
             <div id="individualItemsSection"></div>
             <button type="button" onclick="addIndividualItem()">Add Individual Item</button>
+            <p>
+            <div id="Payment Method">
+                <label for="How to Pay">How to Pay:</label>
+                <input type="radio" id="payNow">PayNow
+                <input type="radio" id="payLah">PayLah
+                <p>
+                <label for="contactNumber">Contact Number for Payment</label><input type="number" id="payNow" minlength="8">
+            </div>
+
             <button type="submit">Calculate</button>
+
         </form>
         <div id="result"></div>
     </div>
