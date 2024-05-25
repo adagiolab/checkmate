@@ -27,11 +27,11 @@
                 <input type="number" id="numPeople" min="1" max="5" value="1" required>
             </div>
 
-            <div class="totalBill">
-                <label for="totalBill">Total Nett Bill (SGD):</label>
-                <input type="number" id="totalBill" step="0.01" required>
+            <div class="totalNettBill">
+                <label for="totalNettBill">Total Nett Bill (SGD):</label>
+                <input type="number" id="totalNettBill" step="0.01" required>
             </div>
-            
+
             <!-- temporarily removed 
             <div class="GST">
                 <input type="checkbox" id="includeGST">
@@ -53,11 +53,11 @@
         <hr class="dotted">
         <div id="Payment Method">
             <h3>Payment Method</h1>
-            <label for="How to Pay">How to Pay:</label>
+            <label for="paymentMethod">How to Pay:</label>
             <input type="radio" id="payNow">PayNow
             <input type="radio" id="payLah">PayLah
             <p>
-            <label for="contactNumber">Contact Number for Payment</label><input type="number" id="payNow" minlength="8">
+            <label for="contactNumber">Contact Number for Payment</label><input type="number" id="contact" minlength="8">
         </div>
 
     </div>

@@ -1,4 +1,3 @@
-// scripts.js
 document.getElementById('billForm').addEventListener('submit', function(event) {
     event.preventDefault();
     calculateBill();
@@ -37,6 +36,7 @@ function updatePersonSelectOptions() {
 
     validateTotalBill();
 }
+
 
 function addIndividualItem() {
     const numPeople = parseInt(document.getElementById('numPeople').value);
@@ -80,22 +80,23 @@ function addIndividualItem() {
         validateTotalBill();
     });
 
-    const personSelectContainer = document.createElement('div');
-    personSelectContainer.classList.add('button-style');
-
-    personSelectContainer.appendChild(personSelect);
-    personSelectContainer.appendChild(gstLabel);
-    personSelectContainer.appendChild(serviceChargeLabel);
-    personSelectContainer.appendChild(deleteButton);
-
     const itemInput = document.createElement('input');
     itemInput.type = 'number';
     itemInput.step = '0.01';
     itemInput.classList.add('individual-item');
     itemInput.addEventListener('input', validateTotalBill);
 
+    const personSelectContainer = document.createElement('div');
+    personSelectContainer.classList.add('button-style');
+
+    personSelectContainer.appendChild(personSelect);
+    personSelectContainer.appendChild(itemInput);
+    personSelectContainer.appendChild(gstLabel);
+    personSelectContainer.appendChild(serviceChargeLabel);
+    personSelectContainer.appendChild(deleteButton);
+
     itemContainer.appendChild(personSelectContainer);
-    itemContainer.appendChild(itemInput);
+
 
     individualItemsSection.appendChild(itemContainer);
 
@@ -118,11 +119,11 @@ function validateTotalBill() {
     const gstCheckbox = document.querySelector('.gst-checkbox');
     const serviceChargeCheckbox = document.querySelector('.service-charge-checkbox');
 
-    if (gstCheckbox.checked) {
+    if (gstCheckbox && gstCheckbox.checked) {
         sum += sum * 0.09; // Add 9% GST
     }
 
-    if (serviceChargeCheckbox.checked) {
+    if (serviceChargeCheckbox && serviceChargeCheckbox.checked) {
         sum += sum * 0.1; // Add 10% service charge
     }
 
@@ -134,16 +135,26 @@ function validateTotalBill() {
     }
 }
 
+
 // Call updatePersonSelectOptions initially to populate the options based on the current value of numPeople
 updatePersonSelectOptions();
 
 function calculateBill() {
-    const totalBill = parseFloat(document.getElementById('totalNettBill').value);
+    console.log("Calculating bill...");
+    const totalNettBill = parseFloat(document.getElementById('totalNettBill').value);
+    console.log("Total Nett Bill:", totalNettBill);
     const numPeople = parseInt(document.getElementById('numPeople').value);
+    console.log("Num People:", numPeople);
+
+    // Get checkboxes
     const gstCheckbox = document.querySelector('.gst-checkbox');
     const serviceChargeCheckbox = document.querySelector('.service-charge-checkbox');
 
-    let totalWithCharges = totalBill;
+    // Check if checkboxes exist and are checked
+    const includeGST = gstCheckbox ? gstCheckbox.checked : false;
+    const includeServiceCharge = serviceChargeCheckbox ? serviceChargeCheckbox.checked : false;
+
+    let totalWithCharges = totalNettBill;
 
     // Subtract individual item costs
     const individualItemInputs = document.querySelectorAll('.individual-item');
@@ -152,13 +163,13 @@ function calculateBill() {
     });
 
     // Subtract GST
-    if (gstCheckbox.checked) {
-        totalWithCharges -= totalBill * 0.09;
+    if (includeGST) {
+        totalWithCharges -= totalNettBill * 0.09;
     }
 
     // Subtract service charge
-    if (serviceChargeCheckbox.checked) {
-        totalWithCharges -= totalBill * 0.10;
+    if (includeServiceCharge) {
+        totalWithCharges -= totalNettBill * 0.10;
     }
 
     // Calculate cost of shared items per person
@@ -173,4 +184,12 @@ function calculateBill() {
     });
 
     displayResult(individualAmounts);
+}
+
+function displayResult(individualAmounts) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '<h2>Bill Breakdown</h2>';
+    individualAmounts.forEach((amount, index) => {
+        resultDiv.innerHTML += `<p>Person ${index + 1}: SGD ${amount.toFixed(2)}</p>`;
+    });
 }
