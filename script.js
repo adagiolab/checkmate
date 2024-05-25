@@ -65,6 +65,20 @@ function addIndividualItem() {
     itemInput.step = '0.01';
     itemInput.classList.add('individual-item');
 
+    const gstCheckbox = document.createElement('input');
+    gstCheckbox.type = 'checkbox';
+    gstCheckbox.classList.add('gst-checkbox');
+    const gstLabel = document.createElement('label');
+    gstLabel.textContent = 'GST (9%)';
+    gstLabel.appendChild(gstCheckbox);
+
+    const serviceChargeCheckbox = document.createElement('input');
+    serviceChargeCheckbox.type = 'checkbox';
+    serviceChargeCheckbox.classList.add('service-charge-checkbox');
+    const serviceChargeLabel = document.createElement('label');
+    serviceChargeLabel.textContent = 'Service Charge (10%)';
+    serviceChargeLabel.appendChild(serviceChargeCheckbox);
+
     const personSelectContainer = document.createElement('div');
     personSelectContainer.classList.add('button-style');
 
@@ -73,6 +87,8 @@ function addIndividualItem() {
 
     itemContainer.appendChild(personSelectContainer);
     itemContainer.appendChild(itemInput);
+    itemContainer.appendChild(gstLabel);
+    itemContainer.appendChild(serviceChargeLabel);
 
     individualItemsSection.appendChild(itemContainer);
 
@@ -85,8 +101,6 @@ function addIndividualItem() {
 
 // Call updatePersonSelectOptions initially to populate the options based on the current value of numPeople
 updatePersonSelectOptions();
-
-
 
 function calculateBill() {
     const totalBill = parseFloat(document.getElementById('totalBill').value);

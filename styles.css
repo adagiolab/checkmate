@@ -82,3 +82,18 @@ button:hover {
     padding: 5px 0;
     cursor: pointer;
 }
+
+.individual-item-container {
+    margin-bottom: 10px; /* Adjust spacing between item containers */
+}
+
+.individual-item-container label {
+    margin-right: 10px; /* Adjust spacing between labels and checkboxes */
+    display: flex;
+    align-items: center;
+}
+
+.individual-item {
+    margin-left: 10px;
+}
+
