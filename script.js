@@ -4,6 +4,90 @@ document.getElementById('billForm').addEventListener('submit', function(event) {
     calculateBill();
 });
 
+document.getElementById('numPeople').addEventListener('change', updatePersonSelectOptions);
+
+function updatePersonSelectOptions() {
+    const numPeople = parseInt(document.getElementById('numPeople').value);
+    const personSelects = document.querySelectorAll('.person-select');
+
+    personSelects.forEach(select => {
+        // Clear existing options
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+
+        // Add new options based on the current number of people
+        for (let i = 0; i < numPeople; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `Person ${i + 1}`;
+            select.appendChild(option);
+        }
+
+        // Update the data-personIndex attribute based on the new options
+        const selectedValue = parseInt(select.dataset.personIndex);
+        if (selectedValue < numPeople) {
+            select.value = selectedValue;
+        } else {
+            select.value = 0;
+            select.dataset.personIndex = 0;
+        }
+    });
+}
+
+function addIndividualItem() {
+    const numPeople = parseInt(document.getElementById('numPeople').value);
+    const individualItemsSection = document.getElementById('individualItemsSection');
+
+    const itemContainer = document.createElement('div');
+    itemContainer.classList.add('section');
+    itemContainer.classList.add('individual-item-container');
+
+    const personSelect = document.createElement('select');
+    personSelect.classList.add('person-select');
+    for (let i = 0; i < numPeople; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `Person ${i + 1}`;
+        personSelect.appendChild(option);
+    }
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.classList.add('delete-button');
+
+    deleteButton.addEventListener('click', function() {
+        itemContainer.remove();
+    });
+
+    const itemInput = document.createElement('input');
+    itemInput.type = 'number';
+    itemInput.step = '0.01';
+    itemInput.classList.add('individual-item');
+
+    const personSelectContainer = document.createElement('div');
+    personSelectContainer.classList.add('button-style');
+
+    personSelectContainer.appendChild(personSelect);
+    personSelectContainer.appendChild(deleteButton);
+
+    itemContainer.appendChild(personSelectContainer);
+    itemContainer.appendChild(itemInput);
+
+    individualItemsSection.appendChild(itemContainer);
+
+    personSelect.addEventListener('change', function() {
+        itemInput.dataset.personIndex = personSelect.value;
+    });
+
+    itemInput.dataset.personIndex = personSelect.value;
+}
+
+// Call updatePersonSelectOptions initially to populate the options based on the current value of numPeople
+updatePersonSelectOptions();
+
+
+
 function calculateBill() {
     const totalBill = parseFloat(document.getElementById('totalBill').value);
     const numPeople = parseInt(document.getElementById('numPeople').value);
@@ -29,39 +113,7 @@ function calculateBill() {
     displayResult(individualAmounts);
 }
 
-function addIndividualItem() {
-    const numPeople = parseInt(document.getElementById('numPeople').value);
-    const individualItemsSection = document.getElementById('individualItemsSection');
 
-    const itemContainer = document.createElement('div');
-    itemContainer.classList.add('section');
-    itemContainer.classList.add('individual-item-container');
-
-    const personSelect = document.createElement('select');
-    personSelect.classList.add('person-select');
-    for (let i = 0; i < numPeople; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = `Person ${i + 1}`;
-        personSelect.appendChild(option);
-    }
-
-    const itemInput = document.createElement('input');
-    itemInput.type = 'number';
-    itemInput.step = '0.01';
-    itemInput.classList.add('individual-item');
-
-    itemContainer.appendChild(personSelect);
-    itemContainer.appendChild(itemInput);
-
-    individualItemsSection.appendChild(itemContainer);
-
-    personSelect.addEventListener('change', function() {
-        itemInput.dataset.personIndex = personSelect.value;
-    });
-
-    itemInput.dataset.personIndex = personSelect.value;
-}
 
 function displayResult(individualAmounts) {
     const resultDiv = document.getElementById('result');

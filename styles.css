@@ -52,3 +52,33 @@ button:hover {
     background: #e0e0e0;
     border-radius: 5px;
 }
+
+/* Add common styles for button-like appearance */
+.button-style {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+/* Specific styles for the delete button */
+.delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px; /* Adjust spacing as needed */
+    cursor: pointer;
+}
+
+/* Additional styles for the person select */
+.person-select {
+    margin-right: 10px; /* Adjust spacing as needed */
+    border: none;
+    background: transparent;
+    padding: 5px 0;
+    cursor: pointer;
+}

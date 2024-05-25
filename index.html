@@ -9,39 +9,62 @@
 <body>
     <div class="container">
         <h1>Bill Splitter</h1>
-        <form id="billForm">
-            <div class="section">
-                <label for="totalBill">Total Bill (SGD):</label>
-                <input type="number" id="totalBill" step="0.01" required>
-            </div>
-            <div class="section">
+        <div class="Instructions">
+            How to use this:
+            <ol>
+                <li>Fill in the total bill and indicate whether it includes GST and service charge.</li>
+                <li>Select the total number of people the bill is being split among.</li>
+                <li>Add individual items that are not being shared among the group. (E.g. Person X ordered an individual dessert.)</li>
+                <li>Click 'Calculate' to display how much each person should pay.</li>
+                <li>Fill in payment method. Screenshot and show everyone in your group or send in your group chat!</li>
+            </ol>
+        </div>
+        <hr class="dotted">
+        <form id="billForm"><h3>Bill Details</h3>
+
+            <div class="numPeople">
                 <label for="numPeople">Number of People:</label>
                 <input type="number" id="numPeople" min="1" max="5" value="1" required>
             </div>
-            <div class="section">
+
+            <div class="totalBill">
+                <label for="totalBill">Total Nett Bill (SGD):</label>
+                <input type="number" id="totalBill" step="0.01" required>
+            </div>
+            <div class="GST">
                 <input type="checkbox" id="includeGST">
-                <label for="includeGST">Include GST (9%)</label>
+                <label for="includeGST">GST (9%) included?</label>
             </div>
-            <div class="section">
+            <div class="Service Charge">
                 <input type="checkbox" id="includeServiceCharge">
-                <label for="includeServiceCharge">Include Service Charge (10%)</label>
-            </div>
-            <div id="individualItemsSection"></div>
-            <button type="button" onclick="addIndividualItem()">Add Individual Item</button>
-            <p>
-            <div id="Payment Method">
-                <label for="How to Pay">How to Pay:</label>
-                <input type="radio" id="payNow">PayNow
-                <input type="radio" id="payLah">PayLah
-                <p>
-                <label for="contactNumber">Contact Number for Payment</label><input type="number" id="payNow" minlength="8">
+                <label for="includeServiceCharge">Service Charge (10%) included?</label>
             </div>
 
+            <div id="individualItemsSection">
+            <button type="button" onclick="addIndividualItem()">Add cost for individual items</button>    
+            </div>
             <button type="submit">Calculate</button>
 
         </form>
         <div id="result"></div>
+        <hr class="dotted">
+        <div id="Payment Method">
+            <h3>Payment Method</h1>
+            <label for="How to Pay">How to Pay:</label>
+            <input type="radio" id="payNow">PayNow
+            <input type="radio" id="payLah">PayLah
+            <p>
+            <label for="contactNumber">Contact Number for Payment</label><input type="number" id="payNow" minlength="8">
+        </div>
+
     </div>
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
+
+<footer>
+    <div style="font-size: 10px; color: grey"><i><b>Disclaimer:</b>
+    <br>
+    This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</i>
+    </div>
+</footer>
 </html>
