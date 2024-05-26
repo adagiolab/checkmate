@@ -1,6 +1,8 @@
 document.getElementById('billForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    calculateBill();
+    if (validateTotalBill()) {
+        calculateBill();
+    }
 });
 
 document.getElementById('numPeople').addEventListener('change', updatePersonSelectOptions);
@@ -37,7 +39,6 @@ function updatePersonSelectOptions() {
     validateTotalBill();
 }
 
-
 function addIndividualItem() {
     const numPeople = parseInt(document.getElementById('numPeople').value);
     const individualItemsSection = document.getElementById('individualItemsSection');
@@ -60,7 +61,7 @@ function addIndividualItem() {
     gstCheckbox.classList.add('gst-checkbox');
     gstCheckbox.addEventListener('change', validateTotalBill);
     const gstLabel = document.createElement('label');
-    gstLabel.textContent = 'GST (9%)';
+    gstLabel.textContent = 'Add GST (9%)?';
     gstLabel.appendChild(gstCheckbox);
 
     const serviceChargeCheckbox = document.createElement('input');
@@ -68,7 +69,7 @@ function addIndividualItem() {
     serviceChargeCheckbox.classList.add('service-charge-checkbox');
     serviceChargeCheckbox.addEventListener('change', validateTotalBill);
     const serviceChargeLabel = document.createElement('label');
-    serviceChargeLabel.textContent = 'Service Charge (10%)';
+    serviceChargeLabel.textContent = 'Add Service Charge (10%)?';
     serviceChargeLabel.appendChild(serviceChargeCheckbox);
 
     const deleteButton = document.createElement('button');
@@ -81,8 +82,10 @@ function addIndividualItem() {
     });
 
     const itemInput = document.createElement('input');
+    itemInput.defaultValue = 0.00;
     itemInput.type = 'number';
     itemInput.step = '0.01';
+    itemInput.min = '0.00';
     itemInput.classList.add('individual-item');
     itemInput.addEventListener('input', validateTotalBill);
 
@@ -97,7 +100,6 @@ function addIndividualItem() {
 
     itemContainer.appendChild(personSelectContainer);
 
-
     individualItemsSection.appendChild(itemContainer);
 
     personSelect.addEventListener('change', function() {
@@ -109,34 +111,38 @@ function addIndividualItem() {
 
 function validateTotalBill() {
     const totalNettBill = parseFloat(document.getElementById('totalNettBill').value);
+    if (totalNettBill < 0) {
+        alert('The total nett bill cannot be negative.');
+        return false;
+    }
+
     const itemInputs = document.querySelectorAll('.individual-item');
     let sum = 0;
 
     itemInputs.forEach(input => {
-        sum += parseFloat(input.value) || 0;
+        let itemCost = parseFloat(input.value) || 0;
+        const gstCheckbox = input.parentElement.querySelector('.gst-checkbox');
+        const serviceChargeCheckbox = input.parentElement.querySelector('.service-charge-checkbox');
+
+        if (gstCheckbox && gstCheckbox.checked) {
+            itemCost += itemCost * 0.09; // Add 9% GST
+        }
+
+        if (serviceChargeCheckbox && serviceChargeCheckbox.checked) {
+            itemCost += itemCost * 0.1; // Add 10% service charge
+        }
+
+        sum += itemCost;
     });
-
-    const gstCheckbox = document.querySelector('.gst-checkbox');
-    const serviceChargeCheckbox = document.querySelector('.service-charge-checkbox');
-
-    if (gstCheckbox && gstCheckbox.checked) {
-        sum += sum * 0.09; // Add 9% GST
-    }
-
-    if (serviceChargeCheckbox && serviceChargeCheckbox.checked) {
-        sum += sum * 0.1; // Add 10% service charge
-    }
 
     if (sum > totalNettBill) {
         alert('The sum of individual items exceeds the total nett bill value.');
         return false;
-    } else {
-        return true;
     }
+
+    return true;
 }
 
-
-// Call updatePersonSelectOptions initially to populate the options based on the current value of numPeople
 updatePersonSelectOptions();
 
 function calculateBill() {
@@ -146,40 +152,42 @@ function calculateBill() {
     const numPeople = parseInt(document.getElementById('numPeople').value);
     console.log("Num People:", numPeople);
 
-    // Get checkboxes
-    const gstCheckbox = document.querySelector('.gst-checkbox');
-    const serviceChargeCheckbox = document.querySelector('.service-charge-checkbox');
-
-    // Check if checkboxes exist and are checked
-    const includeGST = gstCheckbox ? gstCheckbox.checked : false;
-    const includeServiceCharge = serviceChargeCheckbox ? serviceChargeCheckbox.checked : false;
-
-    let totalWithCharges = totalNettBill;
-
-    // Subtract individual item costs
+    let totalIndividualCosts = 0;
     const individualItemInputs = document.querySelectorAll('.individual-item');
     individualItemInputs.forEach(input => {
-        totalWithCharges -= parseFloat(input.value) || 0;
+        let itemCost = parseFloat(input.value) || 0;
+        const gstCheckbox = input.parentElement.querySelector('.gst-checkbox');
+        const serviceChargeCheckbox = input.parentElement.querySelector('.service-charge-checkbox');
+
+        if (gstCheckbox && gstCheckbox.checked) {
+            itemCost += itemCost * 0.09; // Add 9% GST
+        }
+
+        if (serviceChargeCheckbox && serviceChargeCheckbox.checked) {
+            itemCost += itemCost * 0.1; // Add 10% service charge
+        }
+
+        totalIndividualCosts += itemCost;
     });
 
-    // Subtract GST
-    if (includeGST) {
-        totalWithCharges -= totalNettBill * 0.09;
-    }
+    let remainingAmount = totalNettBill - totalIndividualCosts;
+    let sharedItemCostPerPerson = remainingAmount / numPeople;
 
-    // Subtract service charge
-    if (includeServiceCharge) {
-        totalWithCharges -= totalNettBill * 0.10;
-    }
-
-    // Calculate cost of shared items per person
-    const sharedItemCostPerPerson = totalWithCharges / numPeople;
-
-    // Calculate total amount each person owes
     const individualAmounts = Array(numPeople).fill(sharedItemCostPerPerson);
     individualItemInputs.forEach(input => {
         const personIndex = parseInt(input.dataset.personIndex);
-        const itemAmount = parseFloat(input.value);
+        let itemAmount = parseFloat(input.value) || 0;
+        const gstCheckbox = input.parentElement.querySelector('.gst-checkbox');
+        const serviceChargeCheckbox = input.parentElement.querySelector('.service-charge-checkbox');
+
+        if (gstCheckbox && gstCheckbox.checked) {
+            itemAmount += itemAmount * 0.09; // Add 9% GST
+        }
+
+        if (serviceChargeCheckbox && serviceChargeCheckbox.checked) {
+            itemAmount += itemAmount * 0.1; // Add 10% service charge
+        }
+
         individualAmounts[personIndex] += itemAmount;
     });
 

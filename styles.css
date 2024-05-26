@@ -62,11 +62,12 @@ button:hover {
     padding: 5px 10px;
     border-radius: 4px;
     margin-right: 10px;
+    font-size: 10px;
 }
 
 /* Specific styles for the delete button */
 .delete-button {
-    background-color: #ff4d4d;
+    background-color: red;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -95,4 +96,14 @@ button:hover {
 
 .individual-item {
     margin-left: 10px;
+    margin-right: 10px;
+    width: 50%;
+}
+
+#numPeople {
+    width: 5%;
+}
+
+#totalNettBill {
+    width: 20%;
 }
