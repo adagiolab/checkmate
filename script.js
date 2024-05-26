@@ -10,37 +10,26 @@ document.getElementById('totalNettBill').addEventListener('change', validateTota
 
 function updatePersonSelectOptions() {
     const numPeople = parseInt(document.getElementById('numPeople').value);
-    const personSelects = document.querySelectorAll('.person-select');
+    const nameInputsDiv = document.getElementById('nameInputs');
 
-    personSelects.forEach(select => {
-        // Clear existing options
-        while (select.firstChild) {
-            select.removeChild(select.firstChild);
-        }
+    // Clear existing name input fields
+    nameInputsDiv.innerHTML = '';
 
-        // Add new options based on the current number of people
-        for (let i = 0; i < numPeople; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = `Person ${i + 1}`;
-            select.appendChild(option);
-        }
-
-        // Update the data-personIndex attribute based on the new options
-        const selectedValue = parseInt(select.dataset.personIndex);
-        if (selectedValue < numPeople) {
-            select.value = selectedValue;
-        } else {
-            select.value = 0;
-            select.dataset.personIndex = 0;
-        }
-    });
+    // Add new name input fields based on the current number of people
+    for (let i = 0; i < numPeople; i++) {
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.placeholder = `Person ${i + 1} Name`;
+        nameInput.classList.add('person-name');
+        nameInputsDiv.appendChild(nameInput);
+    }
 
     validateTotalBill();
 }
 
 function addIndividualItem() {
     const numPeople = parseInt(document.getElementById('numPeople').value);
+    const names = document.querySelectorAll('.person-name');
     const individualItemsSection = document.getElementById('individualItemsSection');
 
     const itemContainer = document.createElement('div');
@@ -52,7 +41,7 @@ function addIndividualItem() {
     for (let i = 0; i < numPeople; i++) {
         const option = document.createElement('option');
         option.value = i;
-        option.textContent = `Person ${i + 1}`;
+        option.textContent = names[i].value || `Person ${i + 1}`;
         personSelect.appendChild(option);
     }
 
