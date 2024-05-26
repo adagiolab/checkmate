@@ -1,7 +1,8 @@
 /* styles.css */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #fafafa;
+    color: #333;
     margin: 0;
     padding: 0;
 }
@@ -11,85 +12,117 @@ body {
     margin: 50px auto;
     padding: 20px;
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
     text-align: center;
+    font-size: 2em;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
 }
 
 .section {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
 }
 
 input[type="number"],
+input[type="text"],
 button {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+button:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.2);
 }
 
 button {
-    background-color: navy;
+    background-color: #0066cc;
     color: white;
     border: none;
     cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: navy;
+    background-color: #005bb5;
 }
 
 #result {
     margin-top: 20px;
-    padding: 10px;
-    background: #e0e0e0;
+    padding: 15px;
+    background: #f0f0f0;
     border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
-/* Add common styles for button-like appearance */
 .button-style {
     display: flex;
     align-items: center;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    border-radius: 4px;
-    margin-right: 10px;
-    font-size: 10px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
-/* Specific styles for the delete button */
 .delete-button {
-    background-color: red;
+    background-color: #e60000;
     color: white;
     border: none;
     padding: 5px 10px;
-    margin-left: 10px; /* Adjust spacing as needed */
+    margin-left: 10px;
     cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-/* Additional styles for the person select */
+.delete-button:hover {
+    background-color: #cc0000;
+}
+
 .person-select {
-    margin-right: 10px; /* Adjust spacing as needed */
-    border: none;
-    background: transparent;
-    padding: 5px 0;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.person-select:focus {
+    border-color: #0066cc;
 }
 
 .individual-item-container {
-    margin-bottom: 10px; /* Adjust spacing between item containers */
+    margin-bottom: 15px;
 }
 
 .individual-item-container label {
-    margin-right: 10px; /* Adjust spacing between labels and checkboxes */
+    margin-right: 10px;
     display: flex;
     align-items: center;
 }
@@ -97,13 +130,37 @@ button:hover {
 .individual-item {
     margin-left: 10px;
     margin-right: 10px;
-    width: 50%;
+    width: 100%;
+    max-width: 200px;
 }
 
-#numPeople {
-    width: 20%;
-}
-
+#numPeople,
 #totalNettBill {
-    width: 20%;
+    width: calc(50% - 10px);
+    display: inline-block;
+}
+
+#nameInputs {
+    display: flex;
+    flex-direction: column;
+}
+
+#nameInputs input {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    #numPeople,
+    #totalNettBill {
+        width: 100%;
+    }
+
+    .button-style {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .individual-item {
+        width: calc(100% - 20px);
+    }
 }

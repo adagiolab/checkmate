@@ -21,10 +21,33 @@ function updatePersonSelectOptions() {
         nameInput.type = 'text';
         nameInput.placeholder = `Person ${i + 1} Name`;
         nameInput.classList.add('person-name');
+        nameInput.dataset.personIndex = i;
+        nameInput.addEventListener('input', updateDropdownOptions);
         nameInputsDiv.appendChild(nameInput);
     }
 
     validateTotalBill();
+    updateDropdownOptions(); // Ensure dropdown options are updated immediately
+}
+
+function updateDropdownOptions() {
+    const names = document.querySelectorAll('.person-name');
+    const personSelects = document.querySelectorAll('.person-select');
+
+    personSelects.forEach(select => {
+        const selectedValue = select.value;
+        select.innerHTML = '';
+        names.forEach((nameInput, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = nameInput.value || `Person ${index + 1}`;
+            select.appendChild(option);
+        });
+        select.value = selectedValue;
+    });
+
+    // Update bill breakdown if the names change
+    calculateBill();
 }
 
 function addIndividualItem() {
@@ -135,11 +158,8 @@ function validateTotalBill() {
 updatePersonSelectOptions();
 
 function calculateBill() {
-    console.log("Calculating bill...");
     const totalNettBill = parseFloat(document.getElementById('totalNettBill').value);
-    console.log("Total Nett Bill:", totalNettBill);
     const numPeople = parseInt(document.getElementById('numPeople').value);
-    console.log("Num People:", numPeople);
 
     let totalIndividualCosts = 0;
     const individualItemInputs = document.querySelectorAll('.individual-item');
@@ -186,7 +206,9 @@ function calculateBill() {
 function displayResult(individualAmounts) {
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = '<h2>Bill Breakdown</h2>';
+    const names = document.querySelectorAll('.person-name');
     individualAmounts.forEach((amount, index) => {
-        resultDiv.innerHTML += `<p>Person ${index + 1}: SGD ${amount.toFixed(2)}</p>`;
+        const personName = names[index].value || `Person ${index + 1}`;
+        resultDiv.innerHTML += `<p>${personName}: SGD ${amount.toFixed(2)}</p>`;
     });
 }
