@@ -1,7 +1,7 @@
 /* styles.css */
 body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #fafafa;
+    font-family: 'Roboto', 'Nunito', Arial, sans-serif;
+    background-color: #034f84;
     color: #333;
     margin: 0;
     padding: 0;
@@ -13,12 +13,14 @@ body {
     padding: 20px;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 16px #f7cac9;
+    font-size: 14px;
 }
 
 h1 {
     text-align: center;
-    font-size: 2em;
+    font-family: Arial;
+    font-size: 4em;
     font-weight: 700;
     color: #333;
     margin-bottom: 20px;
@@ -47,6 +49,7 @@ button {
     color: #333;
     transition: all 0.3s ease;
     background: #fff;
+    box-sizing: border-box;
 }
 
 input[type="number"]:focus,
@@ -143,6 +146,7 @@ button:hover {
 #nameInputs {
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 #nameInputs input {
@@ -152,7 +156,7 @@ button:hover {
 @media (max-width: 600px) {
     #numPeople,
     #totalNettBill {
-        width: 100%;
+        box-sizing: border-box;
     }
 
     .button-style {
@@ -164,3 +168,4 @@ button:hover {
         width: calc(100% - 20px);
     }
 }
+
