@@ -13,7 +13,7 @@ body {
     padding: 20px;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 4px 16px #f7cac9;
+    box-shadow: 0 4px 16px #ffffff;
     font-size: 14px;
 }
 
@@ -42,7 +42,7 @@ input[type="text"],
 button {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
+    margin: 5px 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
@@ -133,7 +133,7 @@ button:hover {
 .individual-item {
     margin-left: 10px;
     margin-right: 10px;
-    width: 100%;
+    width: 10%;
     max-width: 200px;
 }
 
